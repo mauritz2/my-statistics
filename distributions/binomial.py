@@ -1,5 +1,4 @@
 from utils.utils import factorial
-from itertools import permutations, product
 
 def _calc_binomial_coefficient(num_trials: int, num_successes:int) -> float:
     # Binomial coefficient is the amount of ways you could've ended up with this amount of 
