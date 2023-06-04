@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
+import statistics
+from utils import utils
 from distributions import binomial 
 from distributions import beta
+
 
 def plot_binomial_dist():
     AMOUNT_OF_TRIALS = 19
@@ -33,6 +36,13 @@ def plot_beta_dist():
     plt.plot(*zip(*sorted(beta_dist.items())))
     plt.show()
 
-calc_beta_probability()
+
+
+
+
+
+
+#calc_beta_probability()
 #plot_beta_dist()
 #plot_binomial_dist()
+
