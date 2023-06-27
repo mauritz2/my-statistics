@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import math
+import pandas as pd
+from sklearn.linear_model import LinearRegression
 from scipy.stats import norm
 from distributions import binomial, beta, normal 
 
@@ -67,8 +69,27 @@ def hypothesis_test():
         
     print(low_end_area + high_end_area)
 
-#calc_beta_probability()
-#plot_beta_dist()
-#plot_binomial_dist()
-#calc_confidence_interval_span()
-hypothesis_test()
+
+def fit_simple_linear_regression():
+    df = pd.read_csv("data/Fish.csv")
+    df = df[df["Weight"] < 1250]
+    df["Volume"] = df.Length1 * df.Length2 * df.Length3 * df.Width
+
+    # Regression by scikit learn
+    linear_reg_sklearn = LinearRegression()
+    linear_reg_sklearn.fit(df["Volume"].to_numpy().reshape(-1, 1), df["Weight"])
+    y_pred = linear_reg_sklearn.predict(df["Volume"].to_numpy().reshape(-1, 1))
+    plt.scatter(df["Volume"], df["Weight"],color='g') 
+    plt.plot(df["Volume"], y_pred,color='k') 
+    plt.show()
+
+    # 
+
+
+if __name__ == "__main__":
+    #calc_beta_probability()
+    #plot_beta_dist()
+    #plot_binomial_dist()
+    #calc_confidence_interval_span()
+    #hypothesis_test()
+    fit_simple_linear_regression()
