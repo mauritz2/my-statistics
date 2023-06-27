@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
-import statistics
-from utils import utils
-from distributions import binomial 
-from distributions import beta
+import math
+from scipy.stats import norm
+from distributions import binomial, beta, normal 
 
 
 def plot_binomial_dist():
@@ -37,12 +36,39 @@ def plot_beta_dist():
     plt.show()
 
 
+def calc_confidence_interval_span():
+    CONFIDENCE_INTERVAL = 0.95
+    SAMPLE_MEAN = 10345
+    SAMPLE_STD = 552
+    N = 45
+
+    left_tail_area_p = (1 - CONFIDENCE_INTERVAL) / 2
+    right_tail_area_p = CONFIDENCE_INTERVAL + ((1 - CONFIDENCE_INTERVAL) / 2)
+
+    norm = normal.create_standard_normal_dist()
+    left_tail_area_z = normal.calc_inverse_cdf(left_tail_area_p, norm)
+    right_tail_area_z = normal.calc_inverse_cdf(right_tail_area_p, norm)
+    
+    margin_of_error_left = left_tail_area_z * SAMPLE_STD / math.sqrt(N)
+    margin_of_error_right = right_tail_area_z * SAMPLE_STD / math.sqrt(N)
+    
+    confidence_interval_left = SAMPLE_MEAN + margin_of_error_left 
+    confidence_interval_right = SAMPLE_MEAN + margin_of_error_right 
+
+    print(confidence_interval_left, confidence_interval_right)
 
 
+def hypothesis_test():
+    MEAN = 10345
+    STD_DEV = 552
 
-
+    high_end_area = 1 - norm.cdf(11641, MEAN, STD_DEV)
+    low_end_area = high_end_area # doesn't matter what lookup is here because areas are symmetrical
+        
+    print(low_end_area + high_end_area)
 
 #calc_beta_probability()
 #plot_beta_dist()
 #plot_binomial_dist()
-
+#calc_confidence_interval_span()
+hypothesis_test()
