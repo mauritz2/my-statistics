@@ -75,13 +75,30 @@ def fit_simple_linear_regression():
     df = df[df["Weight"] < 1250]
     df["Volume"] = df.Length1 * df.Length2 * df.Length3 * df.Width
 
+    x = df["Volume"]
+    y = df["Weight"]
+
     # Regression by scikit learn
     linear_reg_sklearn = LinearRegression()
     linear_reg_sklearn.fit(df["Volume"].to_numpy().reshape(-1, 1), df["Weight"])
     y_pred = linear_reg_sklearn.predict(df["Volume"].to_numpy().reshape(-1, 1))
     plt.scatter(df["Volume"], df["Weight"],color='g') 
+    # TODO - update Volume 
     plt.plot(df["Volume"], y_pred,color='k') 
     plt.show()
+
+
+    # using the formula to calculate the b1 and b0
+    #numerator = 0
+    #denominator = 0
+    #for i in range(n):
+    #    numerator += (X[i] - x_mean) * (Y[i] - y_mean)
+    #    denominator += (X[i] - x_mean) ** 2
+    
+    #b1 = numerator / denominator
+    #b0 = y_mean - (b1 * x_mean)
+    #printing the coefficient
+    #print(b1, b0)
 
     # 
 
