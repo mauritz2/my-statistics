@@ -73,34 +73,38 @@ def hypothesis_test():
 def fit_simple_linear_regression():
     df = pd.read_csv("data/Fish.csv")
     df = df[df["Weight"] < 1250]
+    df.reset_index(inplace=True)
     df["Volume"] = df.Length1 * df.Length2 * df.Length3 * df.Width
 
     x = df["Volume"]
     y = df["Weight"]
 
-    # Regression by scikit learn
+    # Regression by scikit learn    
     linear_reg_sklearn = LinearRegression()
-    linear_reg_sklearn.fit(df["Volume"].to_numpy().reshape(-1, 1), df["Weight"])
-    y_pred = linear_reg_sklearn.predict(df["Volume"].to_numpy().reshape(-1, 1))
-    plt.scatter(df["Volume"], df["Weight"],color='g') 
-    # TODO - update Volume 
-    plt.plot(df["Volume"], y_pred,color='k') 
-    plt.show()
+    linear_reg_sklearn.fit(X=x.to_numpy().reshape(-1, 1), y=y)
+    y_pred = linear_reg_sklearn.predict(x.to_numpy().reshape(-1, 1))
+    plt.scatter(x=x, y=y,color="green")     
+    plt.plot(x, y_pred, color="black") 
 
-
-    # using the formula to calculate the b1 and b0
-    #numerator = 0
-    #denominator = 0
-    #for i in range(n):
-    #    numerator += (X[i] - x_mean) * (Y[i] - y_mean)
-    #    denominator += (X[i] - x_mean) ** 2
+    # Coefficients "from scratch"    
+    x_mean = x.mean()
+    y_mean = y.mean()
+    n = x.shape[0]
+    numerator = 0
+    denominator = 0
+    for i in range(n):
+        numerator += (x[i] - x_mean) * (y[i] - y_mean)
+        denominator += (x[i] - x_mean) ** 2
     
-    #b1 = numerator / denominator
-    #b0 = y_mean - (b1 * x_mean)
-    #printing the coefficient
-    #print(b1, b0)
+    b1 = numerator / denominator
+    b0 = y_mean - (b1 * x_mean)
 
-    # 
+    from_scratch_y_pred = []
+    for vol in x.values:
+        from_scratch_pred = b0 + b1 * vol
+        from_scratch_y_pred.append(from_scratch_pred)
+    plt.plot(x, from_scratch_y_pred, color="red")
+    plt.show() # predictions are identical to scikit-learn
 
 
 if __name__ == "__main__":
