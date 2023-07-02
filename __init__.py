@@ -80,36 +80,19 @@ def fit_simple_linear_regression():
     y = df["Weight"].squeeze()
 
     # Regression by scikit learn    
-    #linear_reg_sklearn = LinearRegression()
-    #linear_reg_sklearn.fit(X=x.to_numpy().reshape(-1, 1), y=y)
-    #y_pred = linear_reg_sklearn.predict(x.to_numpy().reshape(-1, 1))
-    #plt.scatter(x=x, y=y,color="green")     
-    #plt.plot(x, y_pred, color="black") 
+    linear_reg_sklearn = LinearRegression()
+    linear_reg_sklearn.fit(X=x.to_numpy().reshape(-1, 1), y=y)
+    y_pred = linear_reg_sklearn.predict(x.to_numpy().reshape(-1, 1))
+    plt.scatter(x=x, y=y,color="green")     
+    plt.plot(x, y_pred, color="black") 
 
-    simple_linear = SimpleLinear(x, y)
-    simple_linear.fit()
+    # Simple regression "from scratch"
+    simple_linear = SimpleLinear()
+    simple_linear.fit(x, y)
     simple_predictions = simple_linear.predict(x)
-    print("FItted the model")
-    # Coefficients "from scratch"    
-    #x_mean = x.mean()
-    #y_mean = y.mean()
-    #n = x.shape[0]
-    #numerator = 0
-    #denominator = 0
-    #for i in range(n):
-    #    numerator += (x[i] - x_mean) * (y[i] - y_mean)
-    #    denominator += (x[i] - x_mean) ** 2
-    
-    #b1 = numerator / denominator
-    #b0 = y_mean - (b1 * x_mean)
-
-    #from_scratch_y_pred = []
-    #for vol in x.values:
-    #    from_scratch_pred = b0 + b1 * vol
-    #    from_scratch_y_pred.append(from_scratch_pred)
-    #plt.plot(x, from_scratch_y_pred, color="red")
-    #plt.show() # predictions are identical to scikit-learn
     plt.plot(x, simple_predictions, color="red")
+
+
     plt.show() # predictions are identical to scikit-learn
 
 
