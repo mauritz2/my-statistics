@@ -1,5 +1,6 @@
 import pytest
 import pandas as pd
+import matplotlib.pyplot as plt
 from regressions.simple_linear import SimpleLinear
 
 @pytest.fixture
@@ -52,15 +53,20 @@ def test_fit_negative_nums(simple_linear):
 
 
 def test_predict(simple_linear):
-    # Continue here
     x_train = pd.Series([1, 2, 3])
     y_train = pd.Series([3, 5, 7])
-    x_predict = pd.Series([1, 2, 3])
-    
-    simple_linear.fit(x_train, y_train)
+    prediction_expected = y_train
 
-    prediction= simple_linear.predict(x_predict)
-    assert prediction == pd.Series([3, 5, 7])
-    #assert simple_linear.b0 == -1.0
-    #assert simple_linear.b1 == 2.0
+    simple_linear.fit(x_train, y_train)
+    prediction = simple_linear.predict(x_train)
+    assert (prediction == prediction_expected).all() == True
+
+def test_predict_negative(simple_linear):
+    x_train = pd.Series([-8, -6, -4])
+    y_train = pd.Series([2, 4, 6])
+    prediction_expected = y_train
+
+    simple_linear.fit(x_train, y_train)
+    prediction = simple_linear.predict(x_train)
+    assert (prediction == prediction_expected).all() == True
 

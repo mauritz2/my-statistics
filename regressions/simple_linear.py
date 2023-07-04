@@ -24,10 +24,10 @@ class SimpleLinear:
 
         for i in range(n):
             numerator += (x[i] - x_mean) * (y[i] - y_mean)
-            denominator += ([x[i]] - x_mean) ** 2
+            denominator += (x[i] - x_mean) ** 2
         
         self.b1 = numerator / denominator
-        self.b0 = y_mean - (self.b1 * x_mean)
+        self.b0 = y_mean - self.b1 * x_mean
 
     def predict(self, x:pd.Series) -> pd.Series:
         if self.b0 == None or self.b1 == None:
